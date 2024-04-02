@@ -13,7 +13,7 @@ function App() {
   const [startGame, setStartGame] = useState(false)
 
 const fetchAlldatas=async(allRound)=>{
-    await axios.put('http://localhost:5000/api/games',{...games,rounds:allRound})
+    await axios.put('/api/games',{...games,rounds:allRound})
       .then(response => setGames(response.data))
       .catch(error => console.error('Error fetching game data:', error));
       console.log('========reaule',games)
@@ -21,7 +21,7 @@ const fetchAlldatas=async(allRound)=>{
 
   const handlePlay = async() => {
     // Send player names to backend to save game data
-   await axios.post('http://localhost:5000/api/create', { player1, player2,rounds })
+   await axios.post('/api/create', { player1, player2,rounds })
       .then(response =>setGames(response.data) )
       .catch(error => console.error('Error saving game data:', error));
     setStartGame(true)
@@ -32,7 +32,7 @@ const fetchAlldatas=async(allRound)=>{
     let allRound=[...rounds, { round: currentRound, player1Choice, player2Choice, winner }]
       await   fetchAlldatas(allRound)
    setRounds([...rounds, { round: currentRound, player1Choice, player2Choice, winner }]);
- if(currentRound <= 6){
+ if(currentRound < 6){
   setCurrentRound(currentRound + 1);
  }
     
@@ -58,7 +58,7 @@ const fetchAlldatas=async(allRound)=>{
       {!startGame ?  <div className='player-name'>
         <input type="text" placeholder="Enter Player1 Name" value={player1} onChange={e => setPlayer1(e.target.value)} />
         <input type="text"  placeholder="Enter Player2 Name" value={player2} onChange={e => setPlayer2(e.target.value)} />
-        <button className='play-button' onClick={()=>handlePlay}>Start Game</button>
+        <button className='play-button' onClick={()=>handlePlay()}>Start Game</button>
       </div>
       
       :<>

@@ -28,7 +28,9 @@ function Round({ options, playRound, currentRound,game }) {
 
     const handlePlay = () => {
         playRound(player1Choice, player2Choice);
-        
+       if(currentRound == 6){
+        setError(true);
+       }
     };
 
     return (
