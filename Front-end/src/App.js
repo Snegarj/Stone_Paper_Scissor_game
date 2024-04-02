@@ -32,7 +32,9 @@ const fetchAlldatas=async(allRound)=>{
     let allRound=[...rounds, { round: currentRound, player1Choice, player2Choice, winner }]
       await   fetchAlldatas(allRound)
    setRounds([...rounds, { round: currentRound, player1Choice, player2Choice, winner }]);
-    setCurrentRound(currentRound + 1);
+ if(currentRound <= 6){
+  setCurrentRound(currentRound + 1);
+ }
     
   };
 
@@ -56,7 +58,7 @@ const fetchAlldatas=async(allRound)=>{
       {!startGame ?  <div className='player-name'>
         <input type="text" placeholder="Enter Player1 Name" value={player1} onChange={e => setPlayer1(e.target.value)} />
         <input type="text"  placeholder="Enter Player2 Name" value={player2} onChange={e => setPlayer2(e.target.value)} />
-        <button className='play-button' onClick={handlePlay}>Start Game</button>
+        <button className='play-button' onClick={()=>handlePlay}>Start Game</button>
       </div>
       
       :<>
@@ -64,11 +66,18 @@ const fetchAlldatas=async(allRound)=>{
         <Round game={games} options={options} playRound={playRound} currentRound={currentRound} />
         <h2>Scoreboard</h2>
         <ul>
-          {games?.rounds?.map((round, index) => (
+    {games?.rounds?.length > 0 ?  <>     {games?.rounds?.map((round, index) => (
             <li key={index}>
               Round {round.round}: {round.player1Choice} vs {round.player2Choice} - Winner: {round.winner}
             </li>
-          ))}
+          ))}</>:
+          <>
+          {rounds?.map((round, index) => (
+            <li key={index}>
+              Round {round.round}: {round.player1Choice} vs {round.player2Choice} - Winner: {round.winner}
+            </li>
+          ))}</>
+          }
         </ul>
       </>
       }
